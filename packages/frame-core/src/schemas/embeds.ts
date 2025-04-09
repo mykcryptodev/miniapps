@@ -19,6 +19,7 @@ export const actionLaunchFrameSchema = z.object({
 export const actionViewTokenSchema = z.object({
   type: z.literal('view_token'),
   token: caip19TokenSchema,
+  swap: z.boolean().optional(),
 })
 
 export const actionSchema = z.discriminatedUnion('type', [
