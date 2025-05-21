@@ -1,5 +1,65 @@
 import { describe, expect, test } from 'vitest'
-import { actionSchema } from '../src/schemas'
+import { actionSchema, createSimpleStringSchema } from '../src/schemas'
+import { actionLaunchFrameSchema } from '../src/schemas/embeds'
+
+describe('createSimpleStringSchema', () => {
+  test('valid string', () => {
+    const result = createSimpleStringSchema().safeParse('test: this is valid!')
+    expect(result.success).toBe(true)
+  })
+
+  test('no special characters', () => {
+    const result = createSimpleStringSchema().safeParse('test@#$%^&*()')
+    expect(result.success).toBe(false)
+  })
+
+  test('no repeated punctuation', () => {
+    const result = createSimpleStringSchema().safeParse('test!!')
+    expect(result.success).toBe(false)
+  })
+
+  test('no emojis', () => {
+    const result = createSimpleStringSchema().safeParse('test👍')
+    expect(result.success).toBe(false)
+  })
+
+  test('no spaces', () => {
+    const result = createSimpleStringSchema({ noSpaces: true }).safeParse(
+      'test with spaces',
+    )
+    expect(result.success).toBe(false)
+  })
+
+  test('max length', () => {
+    const result = createSimpleStringSchema({ max: 5 }).safeParse('test length')
+    expect(result.success).toBe(false)
+  })
+})
+
+describe('actionLaunchFrameSchema', () => {
+  test('valid with URL', () => {
+    const result = actionLaunchFrameSchema.safeParse({
+      type: 'launch_frame',
+      name: 'Open',
+      url: 'https://www.bountycaster.xyz/bounty/0x0000000000000000000000000000000000000000/frames',
+      splashImageUrl:
+        'https://www.bountycaster.xyz/static/images/bounty/logo.png',
+      splashBackgroundColor: '#ffffff',
+    })
+    expect(result.success).toBe(true)
+  })
+
+  test('valid without URL', () => {
+    const result = actionLaunchFrameSchema.safeParse({
+      type: 'launch_frame',
+      name: 'Open',
+      splashImageUrl:
+        'https://www.bountycaster.xyz/static/images/bounty/logo.png',
+      splashBackgroundColor: '#ffffff',
+    })
+    expect(result.success).toBe(true)
+  })
+})
 
 describe('actionViewTokenSchema', () => {
   test('valid CAIP-19', () => {

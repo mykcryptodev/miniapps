@@ -1,5 +1,24 @@
 # @farcaster/frame-core
 
+## 0.0.34
+
+### Patch Changes
+
+- [#211](https://github.com/farcasterxyz/miniapps/pull/211) [`a06cbb3`](https://github.com/farcasterxyz/miniapps/commit/a06cbb3349227af9260e9beffaf2e29305525978) Thanks [@Slokh](https://github.com/Slokh)! - feat: add experimental token actions
+
+## 0.0.33
+
+### Patch Changes
+
+- [#205](https://github.com/farcasterxyz/miniapps/pull/205) [`b1c125f`](https://github.com/farcasterxyz/miniapps/commit/b1c125f594379a3007705a8c5ad29c18fd1fdd86) Thanks [@gabrielayuso](https://github.com/gabrielayuso)! - Added `noindex` field to the mini app manifest.
+
+## 0.0.32
+
+### Patch Changes
+
+- [#195](https://github.com/farcasterxyz/miniapps/pull/195) [`2617d14`](https://github.com/farcasterxyz/miniapps/commit/2617d145a6f965643857b22e715ced42e71a7c0d) Thanks [@gabrielayuso](https://github.com/gabrielayuso)! - - Introduced new manifest metadata fields (see [discussions/191](https://github.com/farcasterxyz/miniapps/discussions/191))
+  - Deprecated `imageUrl` and `buttonTitle` (see [discussions/194](https://github.com/farcasterxyz/miniapps/discussions/194))
+
 ## 0.0.31
 
 ### Patch Changes
