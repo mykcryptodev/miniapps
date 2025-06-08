@@ -4,14 +4,15 @@ import type {
   Context,
   FrameNotificationDetails,
   Ready,
+  SendToken,
   SetPrimaryButtonOptions,
   SignIn,
-  Swap,
+  SwapToken,
   ViewProfile,
   ViewToken,
 } from '@farcaster/frame-core'
 import type { EventEmitter } from 'eventemitter3'
-import type { Provider } from 'ox'
+import type * as Provider from 'ox/Provider'
 
 declare global {
   interface Window {
@@ -59,11 +60,14 @@ export type FrameSDK = {
     addFrame: AddFrame.AddFrame
     signIn: SignIn.SignIn
     viewProfile: ViewProfile.ViewProfile
-    viewToken: ViewToken.ViewToken
-    swap: Swap.Swap
     composeCast: <close extends boolean | undefined = undefined>(
       options?: ComposeCast.Options<close>,
     ) => Promise<ComposeCast.Result<close>>
+  }
+  experimental: {
+    viewToken: ViewToken.ViewToken
+    sendToken: SendToken.SendToken
+    swapToken: SwapToken.SwapToken
   }
   wallet: {
     ethProvider: Provider.Provider

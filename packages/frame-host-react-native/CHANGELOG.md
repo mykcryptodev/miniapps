@@ -1,5 +1,40 @@
 # @farcaster/frame-host
 
+## 0.0.34
+
+### Patch Changes
+
+- Updated dependencies [[`a06cbb3`](https://github.com/farcasterxyz/miniapps/commit/a06cbb3349227af9260e9beffaf2e29305525978)]:
+  - @farcaster/frame-host@0.0.35
+
+## 0.0.33
+
+### Patch Changes
+
+- [#209](https://github.com/farcasterxyz/miniapps/pull/209) [`334c220`](https://github.com/farcasterxyz/miniapps/commit/334c2208fe85eac398b46cac315ea8d44c1ce997) Thanks [@horsefacts](https://github.com/horsefacts)! - fix: validate host-webview origin
+
+- Updated dependencies []:
+  - @farcaster/frame-host@0.0.34
+
+## 0.0.32
+
+### Patch Changes
+
+- [#201](https://github.com/farcasterxyz/miniapps/pull/201) [`945c9e5`](https://github.com/farcasterxyz/miniapps/commit/945c9e551c32262cf8d3240e3d42cb48c79133b2) Thanks [@horsefacts](https://github.com/horsefacts)! - fix: allow www subdomain as message origin
+
+## 0.0.31
+
+### Patch Changes
+
+- [#198](https://github.com/farcasterxyz/miniapps/pull/198) [`a414c75`](https://github.com/farcasterxyz/miniapps/commit/a414c75489bdcd290ec015cbc99925403dc077d9) Thanks [@horsefacts](https://github.com/horsefacts)! - fix: check event origin
+
+## 0.0.30
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @farcaster/frame-host@0.0.33
+
 ## 0.0.29
 
 ### Patch Changes

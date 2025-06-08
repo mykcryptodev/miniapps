@@ -18,6 +18,7 @@ export type WebViewEndpoint = HostEndpoint & {
  */
 export function createWebViewRpcEndpoint(
   ref: RefObject<WebView>,
+  domain: string,
 ): WebViewEndpoint {
   const listeners: EventListenerOrEventListenerObject[] = []
   return {
@@ -50,11 +51,22 @@ export function createWebViewRpcEndpoint(
       console.debug('[webview:res]', data)
       const dataStr = JSON.stringify(data)
       return ref.current.injectJavaScript(`
-        console.debug('[webview:res]', ${dataStr});
-        document.dispatchEvent(new MessageEvent('FarcasterFrameCallback', { data: ${dataStr} }));
+        if (location.origin === 'https://${domain}' || location.origin === 'https://www.${domain}') {
+          console.debug('[webview:res]', ${dataStr});
+          document.dispatchEvent(new MessageEvent('FarcasterFrameCallback', { data: ${dataStr} }));
+        } else {
+          console.debug('[webview:emit]', 'invalid origin, ignoring')
+        }
       `)
     },
     onMessage: (e) => {
+      const originDomain = new URL(e.nativeEvent.url).hostname
+      const allowedDomains = [domain, `www.${domain}`]
+      if (!allowedDomains.includes(originDomain)) {
+        console.warn('Invalid message domain, ignoring')
+        return
+      }
+
       const data = JSON.parse(e.nativeEvent.data)
       console.debug('[webview:req]', data)
       const messageEvent = new MessageEvent(data)
@@ -75,8 +87,12 @@ export function createWebViewRpcEndpoint(
       console.debug('[webview:emit]', data)
       const dataStr = JSON.stringify(data)
       return ref.current.injectJavaScript(`
-        console.debug('[webview:emit]', ${dataStr});
-        document.dispatchEvent(new MessageEvent('FarcasterFrameEvent', { data: ${dataStr} }));
+        if (location.origin === 'https://${domain}' || location.origin === 'https://www.${domain}') {
+          console.debug('[webview:emit]', ${dataStr});
+          document.dispatchEvent(new MessageEvent('FarcasterFrameEvent', { data: ${dataStr} }));
+        } else {
+          console.debug('[webview:emit]', 'invalid origin, ignoring')
+        }
       `)
     },
     emitEthProvider: (event, params) => {
@@ -89,8 +105,12 @@ export function createWebViewRpcEndpoint(
       const wireEvent = { event, params }
       const dataStr = JSON.stringify(wireEvent)
       return ref.current.injectJavaScript(`
-        console.debug('[webview:emit:ethProvider]', ${dataStr});
-        document.dispatchEvent(new MessageEvent('FarcasterFrameEthProviderEvent', { data: ${dataStr} }));
+        if (location.origin === 'https://${domain}' || location.origin === 'https://www.${domain}') {
+          console.debug('[webview:emit:ethProvider]', ${dataStr});
+          document.dispatchEvent(new MessageEvent('FarcasterFrameEthProviderEvent', { data: ${dataStr} }));
+        } else {
+          console.debug('[webview:emit:ethProvider]', 'invalid origin, ignoring')
+        }
       `)
     },
   }

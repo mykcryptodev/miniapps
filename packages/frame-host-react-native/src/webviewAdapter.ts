@@ -1,12 +1,11 @@
 import type { FrameHost } from '@farcaster/frame-host'
 import { exposeToEndpoint, useExposeToEndpoint } from '@farcaster/frame-host'
-import type { Provider } from 'ox'
+import type { Provider } from 'ox/Provider'
 import {
   type RefObject,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react'
 import type WebView from 'react-native-webview'
@@ -18,13 +17,15 @@ import { type WebViewEndpoint, createWebViewRpcEndpoint } from './webview'
  */
 export function useWebViewRpcAdapter({
   webViewRef,
+  domain,
   sdk,
   ethProvider,
   debug = false,
 }: {
   webViewRef: RefObject<WebView>
+  domain: string
   sdk: Omit<FrameHost, 'ethProviderRequestV2'>
-  ethProvider?: Provider.Provider
+  ethProvider?: Provider
   debug?: boolean
 }) {
   const [endpoint, setEndpoint] = useState<WebViewEndpoint>()
@@ -37,7 +38,7 @@ export function useWebViewRpcAdapter({
   )
 
   useEffect(() => {
-    const newEndpoint = createWebViewRpcEndpoint(webViewRef)
+    const newEndpoint = createWebViewRpcEndpoint(webViewRef, domain)
     setEndpoint(newEndpoint)
 
     const cleanup = exposeToEndpoint({
@@ -52,7 +53,7 @@ export function useWebViewRpcAdapter({
       cleanup?.()
       setEndpoint(undefined)
     }
-  }, [webViewRef, sdk, ethProvider, debug])
+  }, [webViewRef, domain, sdk, ethProvider, debug])
 
   return useMemo(
     () => ({
@@ -64,7 +65,10 @@ export function useWebViewRpcAdapter({
   )
 }
 
-export function useWebViewRpcEndpoint(webViewRef: RefObject<WebView>) {
+export function useWebViewRpcEndpoint(
+  webViewRef: RefObject<WebView>,
+  domain: string,
+) {
   const [endpoint, setEndpoint] = useState<WebViewEndpoint>()
 
   const onMessage: WebViewProps['onMessage'] = useCallback(
@@ -75,13 +79,13 @@ export function useWebViewRpcEndpoint(webViewRef: RefObject<WebView>) {
   )
 
   useEffect(() => {
-    const newEndpoint = createWebViewRpcEndpoint(webViewRef)
+    const newEndpoint = createWebViewRpcEndpoint(webViewRef, domain)
     setEndpoint(newEndpoint)
 
     return () => {
       setEndpoint(undefined)
     }
-  }, [webViewRef])
+  }, [webViewRef, domain])
 
   return useMemo(
     () => ({
@@ -100,7 +104,7 @@ export function useExposeWebViewToEndpoint({
 }: {
   endpoint: WebViewEndpoint | undefined
   sdk: Omit<FrameHost, 'ethProviderRequestV2'>
-  ethProvider?: Provider.Provider
+  ethProvider?: Provider
   debug?: boolean
 }) {
   useExposeToEndpoint({

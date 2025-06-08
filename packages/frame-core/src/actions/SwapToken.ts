@@ -1,4 +1,4 @@
-export type SwapOptions = {
+export type SwapTokenOptions = {
   /**
    * CAIP-19 asset ID
    * For example, Base USDC:
@@ -14,12 +14,12 @@ export type SwapOptions = {
 
   /**
    * Sell token amount, as numeric string.
-   * For example, 10 USDC: 1000000
+   * For example, 1 USDC: 1000000
    */
   sellAmount?: string
 }
 
-type SwapDetails = {
+type SwapTokenDetails = {
   /**
    * Array of tx identifiers in order of execution.
    * Some swaps will have both an approval and swap tx.
@@ -27,7 +27,7 @@ type SwapDetails = {
   transactions: `0x${string}`[]
 }
 
-type SwapErrorDetails = {
+type SwapTokenErrorDetails = {
   /**
    * Error code.
    */
@@ -40,15 +40,15 @@ type SwapErrorDetails = {
 
 export type SwapErrorReason = 'rejected_by_user' | 'swap_failed'
 
-export type SwapResult =
+export type SwapTokenResult =
   | {
       success: true
-      swap: SwapDetails
+      swap: SwapTokenDetails
     }
   | {
       success: false
       reason: SwapErrorReason
-      error?: SwapErrorDetails
+      error?: SwapTokenErrorDetails
     }
 
-export type Swap = (options: SwapOptions) => Promise<SwapResult>
+export type SwapToken = (options: SwapTokenOptions) => Promise<SwapTokenResult>

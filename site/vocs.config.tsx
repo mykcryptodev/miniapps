@@ -89,12 +89,12 @@ export default defineConfig({
             link: '/docs/guides/wallets',
           },
           {
-            text: 'Sending notifications',
-            link: '/docs/guides/notifications',
-          },
-          {
             text: 'Publishing your app',
             link: '/docs/guides/publishing',
+          },
+          {
+            text: 'Sending notifications',
+            link: '/docs/guides/notifications',
           },
           {
             text: 'Authenticating users',
@@ -144,6 +144,18 @@ export default defineConfig({
               {
                 text: 'viewProfile',
                 link: '/docs/sdk/actions/view-profile',
+              },
+              {
+                text: 'swapToken',
+                link: '/docs/sdk/actions/swap-token',
+              },
+              {
+                text: 'sendToken',
+                link: '/docs/sdk/actions/send-token',
+              },
+              {
+                text: 'viewToken',
+                link: '/docs/sdk/actions/view-token',
               },
             ],
           },
